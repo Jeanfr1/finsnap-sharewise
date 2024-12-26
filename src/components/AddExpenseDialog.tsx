@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { PlusCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -46,8 +46,9 @@ export const AddExpenseDialog = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Update the expenses list
-      queryClient.setQueryData(['expenses'], (oldData: any) => {
-        return [newExpense, ...(oldData || [])];
+      queryClient.setQueryData(['expenses'], (oldData: any[]) => {
+        if (!oldData) return [newExpense];
+        return [newExpense, ...oldData];
       });
 
       toast({
@@ -62,6 +63,7 @@ export const AddExpenseDialog = () => {
         description: "Failed to add expense",
         variant: "destructive",
       });
+      console.error("Error adding expense:", error);
     } finally {
       setLoading(false);
     }
