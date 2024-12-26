@@ -4,6 +4,9 @@ import { StatsCard } from "@/components/StatsCard";
 import { useExpenses } from "@/hooks/useExpenses";
 import { DashboardFilters } from "@/components/DashboardFilters";
 import { ExpenseDistributionChart } from "@/components/ExpenseDistributionChart";
+import { BudgetProgress } from "@/components/BudgetProgress";
+import { TopSpendingCategories } from "@/components/TopSpendingCategories";
+import { ExpenseGroups } from "@/components/ExpenseGroups";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card } from "@/components/ui/card";
 
@@ -24,13 +27,36 @@ const distributionData = [
   { name: 'Other', value: 890 },
 ];
 
+const budgets = [
+  { category: "Food & Dining", spent: 850, budget: 1000 },
+  { category: "Transport", spent: 420, budget: 500 },
+  { category: "Entertainment", spent: 650, budget: 600 },
+  { category: "Utilities", spent: 280, budget: 300 },
+];
+
+const topSpendingCategories = [
+  { category: "Food & Dining", amount: 850, trend: 12 },
+  { category: "Entertainment", amount: 650, trend: -5 },
+  { category: "Transport", amount: 420, trend: 8 },
+  { category: "Utilities", amount: 280, trend: -2 },
+];
+
 const Index = () => {
   const { data: expenses } = useExpenses();
 
   const handleFilterChange = (filters: { period: string; date?: Date; category?: string }) => {
     console.log('Filters changed:', filters);
-    // Here you would typically update the data based on the filters
   };
+
+  // Group expenses by category
+  const groupedExpenses = expenses?.reduce((acc, expense) => {
+    const category = expense.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(expense);
+    return acc;
+  }, {} as Record<string, typeof expenses>);
 
   return (
     <DashboardLayout>
@@ -97,6 +123,20 @@ const Index = () => {
 
           <ExpenseDistributionChart data={distributionData} />
         </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TopSpendingCategories categories={topSpendingCategories} />
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Budget Tracking</h3>
+            <div className="grid gap-4">
+              {budgets.map((budget) => (
+                <BudgetProgress key={budget.category} {...budget} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {groupedExpenses && <ExpenseGroups expenses={groupedExpenses} />}
 
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">Recent Expenses</h2>
