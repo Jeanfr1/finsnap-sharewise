@@ -1,8 +1,9 @@
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenuItem, SidebarMenuButton, SidebarMenu } from "@/components/ui/sidebar";
-import { Home, PieChart, Users, Settings, Plus, Moon, Sun } from "lucide-react";
+import { Home, PieChart, Users, Settings, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
 import { Link, useLocation } from "react-router-dom";
+import { AddExpenseDialog } from "./AddExpenseDialog";
 
 const menuItems = [
   { icon: Home, label: "Dashboard", path: "/" },
@@ -56,12 +57,7 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
               </SidebarGroupContent>
             </SidebarGroup>
             <div className="px-6 mt-6 space-y-4">
-              <Button 
-                className="w-full bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 transition-all duration-300 shadow-lg hover:shadow-primary/25"
-                size="lg"
-              >
-                <Plus className="mr-2 h-4 w-4" /> Add Expense
-              </Button>
+              <AddExpenseDialog />
               <Button
                 variant="outline"
                 size="icon"
