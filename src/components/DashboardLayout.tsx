@@ -2,6 +2,7 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupCon
 import { Home, PieChart, Users, Settings, Plus, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
+import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
   { icon: Home, label: "Dashboard", path: "/" },
@@ -12,6 +13,7 @@ const menuItems = [
 
 export const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { theme, setTheme } = useTheme();
+  const location = useLocation();
 
   return (
     <SidebarProvider>
@@ -27,10 +29,14 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.label}>
                       <SidebarMenuButton asChild>
-                        <a href={item.path} className="flex items-center gap-3 px-6 py-3">
+                        <Link 
+                          to={item.path} 
+                          className="flex items-center gap-3 px-6 py-3"
+                          data-active={location.pathname === item.path}
+                        >
                           <item.icon className="h-5 w-5" />
                           <span>{item.label}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
