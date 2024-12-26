@@ -18,10 +18,12 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
-        <Sidebar className="border-r">
+        <Sidebar className="border-r backdrop-blur-lg bg-background/95">
           <SidebarContent>
             <div className="p-6">
-              <h1 className="text-2xl font-bold text-primary">FinSnap</h1>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+                FinSnap
+              </h1>
             </div>
             <SidebarGroup>
               <SidebarGroupContent>
@@ -31,10 +33,20 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
                       <SidebarMenuButton asChild>
                         <Link 
                           to={item.path} 
-                          className="flex items-center gap-3 px-6 py-3"
+                          className={`
+                            flex items-center gap-3 px-6 py-3 transition-all duration-200
+                            relative overflow-hidden rounded-lg
+                            hover:bg-primary/10 dark:hover:bg-primary/20
+                            ${location.pathname === item.path ? 
+                              'text-primary font-medium before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-primary before:rounded-r' : 
+                              'text-muted-foreground'
+                            }
+                          `}
                           data-active={location.pathname === item.path}
                         >
-                          <item.icon className="h-5 w-5" />
+                          <item.icon className={`h-5 w-5 transition-transform duration-200 ${
+                            location.pathname === item.path ? 'scale-110' : ''
+                          }`} />
                           <span>{item.label}</span>
                         </Link>
                       </SidebarMenuButton>
@@ -44,13 +56,16 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
               </SidebarGroupContent>
             </SidebarGroup>
             <div className="px-6 mt-6 space-y-4">
-              <Button className="w-full" size="lg">
+              <Button 
+                className="w-full bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 transition-all duration-300 shadow-lg hover:shadow-primary/25"
+                size="lg"
+              >
                 <Plus className="mr-2 h-4 w-4" /> Add Expense
               </Button>
               <Button
                 variant="outline"
                 size="icon"
-                className="w-full"
+                className="w-full backdrop-blur-sm bg-background/50 hover:bg-background/80 transition-all duration-300"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               >
                 <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
