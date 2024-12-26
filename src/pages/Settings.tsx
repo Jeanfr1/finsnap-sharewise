@@ -4,8 +4,49 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Settings = () => {
+  const { toast } = useToast();
+  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "John Doe",
+    email: "john@example.com"
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSaveChanges = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsSaving(true);
+
+    try {
+      // Simulate API call with timeout
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      toast({
+        title: "Settings updated",
+        description: "Your changes have been saved successfully.",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save changes. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-8">
@@ -23,13 +64,28 @@ const Settings = () => {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" defaultValue="John Doe" />
+                <Input 
+                  id="name" 
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="john@example.com" />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
               </div>
-              <Button>Save Changes</Button>
+              <Button 
+                onClick={handleSaveChanges}
+                disabled={isSaving}
+                className="bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 transition-all duration-300"
+              >
+                {isSaving ? "Saving..." : "Save Changes"}
+              </Button>
             </CardContent>
           </Card>
 
