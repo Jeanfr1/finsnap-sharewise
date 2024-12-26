@@ -1,7 +1,9 @@
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { ExpenseCard } from "@/components/ExpenseCard";
 import { StatsCard } from "@/components/StatsCard";
+import { useQuery } from "@tanstack/react-query";
 
+// This would typically come from your API
 const mockExpenses = [
   {
     amount: 120.50,
@@ -26,7 +28,17 @@ const mockExpenses = [
   }
 ];
 
+export const useExpenses = () => {
+  return useQuery({
+    queryKey: ['expenses'],
+    queryFn: () => Promise.resolve(mockExpenses),
+    initialData: mockExpenses,
+  });
+};
+
 const Index = () => {
+  const { data: expenses } = useExpenses();
+
   return (
     <DashboardLayout>
       <div className="space-y-8">
@@ -59,7 +71,7 @@ const Index = () => {
         <div>
           <h2 className="text-xl font-semibold mb-4">Recent Expenses</h2>
           <div className="grid gap-4">
-            {mockExpenses.map((expense, index) => (
+            {expenses.map((expense, index) => (
               <ExpenseCard key={index} {...expense} />
             ))}
           </div>

@@ -1,120 +1,120 @@
-import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { Plus } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-const categories = [
-  "Food & Dining",
-  "Transportation",
-  "Entertainment",
-  "Shopping",
-  "Utilities",
-  "Healthcare",
-  "Other"
-];
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { PlusCircle } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const AddExpenseDialog = () => {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    amount: "",
-    description: "",
-    category: "",
-    paidBy: ""
-  });
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const newExpense = {
+      amount: Number(formData.get("amount")),
+      description: formData.get("description") as string,
+      category: formData.get("category") as string,
+      date: new Date(),
+      paidBy: formData.get("paidBy") as string,
+    };
 
     try {
-      // Validate form
-      if (!formData.amount || !formData.description || !formData.category || !formData.paidBy) {
-        throw new Error("Please fill in all fields");
-      }
-
-      // Simulate API call
+      // In a real app, this would be an API call
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Update the expenses list
+      queryClient.setQueryData(['expenses'], (oldData: any) => {
+        return [newExpense, ...(oldData || [])];
+      });
 
       toast({
         title: "Success",
-        description: "Expense added successfully!",
-        variant: "default",
-      });
-
-      // Reset form and close dialog
-      setFormData({
-        amount: "",
-        description: "",
-        category: "",
-        paidBy: ""
+        description: "Expense added successfully",
       });
       setOpen(false);
-
+      e.currentTarget.reset();
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to add expense",
+        description: "Failed to add expense",
         variant: "destructive",
       });
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button 
-          className="w-full bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 transition-all duration-300 shadow-lg hover:shadow-primary/25"
-          size="lg"
-        >
-          <Plus className="mr-2 h-4 w-4" /> Add Expense
+        <Button className="w-full gap-2">
+          <PlusCircle className="h-4 w-4" />
+          Add Expense
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Add New Expense</DialogTitle>
+          <DialogDescription>
+            Enter the details of your new expense.
+          </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="amount">Amount ($)</Label>
+            <Label htmlFor="amount">Amount</Label>
             <Input
               id="amount"
+              name="amount"
               type="number"
               step="0.01"
-              min="0"
-              placeholder="0.00"
-              value={formData.amount}
-              onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+              placeholder="Enter amount"
+              required
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Input
               id="description"
-              placeholder="Enter expense description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              name="description"
+              placeholder="Enter description"
+              required
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
-            <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+            <Select name="category" required>
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
+                <SelectItem value="Food & Dining">Food & Dining</SelectItem>
+                <SelectItem value="Business">Business</SelectItem>
+                <SelectItem value="Technology">Technology</SelectItem>
+                <SelectItem value="Travel">Travel</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -122,18 +122,16 @@ export const AddExpenseDialog = () => {
             <Label htmlFor="paidBy">Paid By</Label>
             <Input
               id="paidBy"
-              placeholder="Enter name"
-              value={formData.paidBy}
-              onChange={(e) => setFormData({ ...formData, paidBy: e.target.value })}
+              name="paidBy"
+              placeholder="Enter who paid"
+              required
             />
           </div>
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Adding..." : "Add Expense"}
-          </Button>
+          <DialogFooter>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Adding..." : "Add Expense"}
+            </Button>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
