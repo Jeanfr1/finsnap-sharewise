@@ -1,4 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
+
+const PAGE_SIZE = 10;
 
 const mockExpenses = [
   {
@@ -59,10 +61,39 @@ const mockExpenses = [
   }
 ];
 
+const fetchExpensesPage = async ({ pageParam = 0 }) => {
+  // Simulate API call with delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  const start = pageParam * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const page = mockExpenses.slice(start, end);
+  
+  return {
+    expenses: page,
+    nextPage: end < mockExpenses.length ? pageParam + 1 : undefined,
+  };
+};
+
 export const useExpenses = () => {
-  return useQuery({
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
     queryKey: ['expenses'],
-    queryFn: () => Promise.resolve(mockExpenses),
-    initialData: mockExpenses,
+    queryFn: fetchExpensesPage,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 0,
   });
+
+  const expenses = data?.pages.flatMap(page => page.expenses) ?? [];
+
+  return {
+    data: expenses,
+    isLoading,
+    fetchNextPage,
+    hasNextPage: !!hasNextPage,
+  };
 };
