@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { PlusCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,6 +27,7 @@ export const AddExpenseDialog = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,7 +57,7 @@ export const AddExpenseDialog = () => {
         description: "Expense added successfully",
       });
       setOpen(false);
-      e.currentTarget.reset();
+      formRef.current?.reset();
     } catch (error) {
       toast({
         title: "Error",
@@ -84,7 +85,7 @@ export const AddExpenseDialog = () => {
             Enter the details of your new expense.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="amount">Amount</Label>
             <Input
