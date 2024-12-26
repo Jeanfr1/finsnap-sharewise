@@ -1,69 +1,82 @@
-# Welcome to your Lovable project
+<div align="center">
+  <h1>FinSnap</h1>
+  <p>A modern expense tracking and management application for teams</p>
+</div>
 
-## Project info
+![FinSnap Dashboard](public/lovable-uploads/08f12b17-8303-49f6-aa72-986631cf5b40.png)
 
-**URL**: https://lovable.dev/projects/016b3f5f-e968-43c7-a844-398d431dc801
+## 🚀 Features
 
-## How can I edit this code?
+- **Real-time Expense Tracking**: Monitor your team's expenses as they happen
+- **Interactive Dashboard**: Visualize spending patterns with elegant charts and graphs
+- **Team Management**: Collaborate with team members and track shared expenses
+- **Smart Analytics**: Get insights into spending habits and trends
+- **Budget Management**: Set and track budgets across different categories
+- **Expense Categories**: Organize expenses by categories like Food & Dining, Transport, Utilities, and Entertainment
+- **Dark Mode Support**: Elegant dark theme for comfortable viewing
 
-There are several ways of editing your application.
+## 💻 Tech Stack
 
-**Use Lovable**
+This project is built with modern technologies:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/016b3f5f-e968-43c7-a844-398d431dc801) and start prompting.
+- **React** - Frontend framework
+- **TypeScript** - Type safety and better developer experience
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - High-quality UI components
+- **Recharts** - Modern charting library
+- **React Query** - Data fetching and state management
+- **Vite** - Next generation frontend tooling
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Getting Started
 
-**Use your preferred IDE**
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd finsnap
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Install dependencies**
+```bash
+npm install
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. **Start the development server**
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. **Build for production**
+```bash
+npm run build
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📱 Key Components
 
-**Use GitHub Codespaces**
+- **Dashboard Overview**: Track total expenses, average per member, and pending settlements
+- **Expense Trends**: Visualize spending patterns over time with interactive charts
+- **Expense Distribution**: See category-wise expense breakdown with an intuitive donut chart
+- **Team Management**: Manage team members and their expense permissions
+- **Settings**: Customize application settings and preferences
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🎨 Design Philosophy
 
-## What technologies are used for this project?
+FinSnap features a modern, clean interface with a focus on usability and elegance. The dark theme provides excellent contrast and reduces eye strain during extended use. The UI components are carefully crafted to provide a seamless user experience while maintaining high functionality.
 
-This project is built with .
+## 🤝 Contributing
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## How can I deploy this project?
+## 📄 License
 
-Simply open [Lovable](https://lovable.dev/projects/016b3f5f-e968-43c7-a844-398d431dc801) and click on Share -> Publish.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## I want to use a custom domain - is that possible?
+## 🌟 Acknowledgments
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+- Thanks to all contributors who have helped shape FinSnap
+- Special thanks to the creators of the open-source libraries used in this project
+
+---
+
+<div align="center">
+  <p>Built with ❤️ using <a href="https://lovable.dev">Lovable</a></p>
+</div>
