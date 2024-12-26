@@ -1,6 +1,6 @@
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { BarChart, LineChart } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line } from "recharts";
 
 const mockData = [
   { month: 'Jan', expenses: 1200 },
