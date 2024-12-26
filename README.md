@@ -78,5 +78,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 <div align="center">
-  <p>Built with ❤️ using <a href="https://lovable.dev">Lovable</a></p>
+  <p>Built with ❤️ URL website <a href="https://finsnap.netlify.app">FinSnap</a></p>
 </div>
