@@ -16,6 +16,11 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
   const { theme, setTheme } = useTheme();
   const location = useLocation();
 
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -62,7 +67,7 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
                 variant="outline"
                 size="icon"
                 className="w-full backdrop-blur-sm bg-background/50 hover:bg-background/80 transition-all duration-300"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={toggleTheme}
               >
                 <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
