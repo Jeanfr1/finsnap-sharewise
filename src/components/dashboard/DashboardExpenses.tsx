@@ -47,7 +47,7 @@ export const DashboardExpenses = () => {
 
   return (
     <>
-      {expenses && <ExpenseGroups expenses={expenses} />}
+      {expenses && expenses.length > 0 && <ExpenseGroups expenses={expenses} />}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold">Recent Expenses</h2>
