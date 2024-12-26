@@ -1,13 +1,71 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { DashboardLayout } from "@/components/DashboardLayout";
+import { ExpenseCard } from "@/components/ExpenseCard";
+import { StatsCard } from "@/components/StatsCard";
+
+const mockExpenses = [
+  {
+    amount: 120.50,
+    description: "Team Lunch",
+    category: "Food & Dining",
+    date: new Date("2024-02-15"),
+    paidBy: "John Doe"
+  },
+  {
+    amount: 45.99,
+    description: "Office Supplies",
+    category: "Business",
+    date: new Date("2024-02-14"),
+    paidBy: "Jane Smith"
+  },
+  {
+    amount: 89.99,
+    description: "Software License",
+    category: "Technology",
+    date: new Date("2024-02-13"),
+    paidBy: "Mike Johnson"
+  }
+];
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <DashboardLayout>
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-gray-500 mt-2">Track your team's expenses and stay on budget</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <StatsCard
+            title="Total Expenses"
+            value="$2,456"
+            trend={12}
+            trendLabel="vs last month"
+          />
+          <StatsCard
+            title="Average per Member"
+            value="$350"
+            trend={-5}
+            trendLabel="vs last month"
+          />
+          <StatsCard
+            title="Pending Settlements"
+            value="$890"
+            trend={8}
+            trendLabel="vs last week"
+          />
+        </div>
+
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Recent Expenses</h2>
+          <div className="grid gap-4">
+            {mockExpenses.map((expense, index) => (
+              <ExpenseCard key={index} {...expense} />
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 
